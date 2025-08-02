@@ -1,3 +1,2 @@
 #!/bin/bash
-# The core command to list all environment variables.
 printenv
