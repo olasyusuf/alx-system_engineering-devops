@@ -24,6 +24,11 @@
     - [`11-binary_to_decimal`](#11-binary_to_decimal)
     - [`12-combinations`](#12-combinations)
     - [`13-print_float`](#13-print_float)
+  - [More](#more)
+    - [`100-decimal_to_hexadecimal`](#100-decimal_to_hexadecimal)
+    - [`101-rot13`](#101-rot13)
+    - [`102-0dd`](#102-0dd)
+    - [`103-water_and_stir`](#103-water_and_stir)
 
 
 <br />
@@ -81,3 +86,34 @@ This document details some basic shell commands.
   
 #### `13-print_float` 	
 - Prints the `NUM` variable rounded to two decimal places.
+  
+<br />
+
+<div align="right">
+
+  [ [↑ to top ↑](#table-of-contents) ]
+</div>
+
+---
+
+### More
+#### `100-decimal_to_hexadecimal` 	
+- Converts a number from base 10 to base 16
+  
+#### `101-rot13`	
+- Encodes and decodes text using the rot13 encryption. Assume ASCII
+  
+#### `102-0dd` 	
+- Prints every other line from the input, starting with the first line
+  
+#### `103-water_and_stir` 	
+- Adds the two numbers stored in the environment variables WATER and STIR and prints the result
+
+<br />
+
+<div align="right">
+
+  [ [↑ to top ↑](#table-of-contents) ]
+</div>
+
+---
