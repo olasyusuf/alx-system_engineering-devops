@@ -1,0 +1,28 @@
+The User's Journey
+
+When a user wants to access your website, they type www.foobar.com into their browser. The browser doesn't know where the website is located, so it first queries the Domain Name System (DNS). DNS acts like a phonebook for the internet. It translates the human-friendly domain name www.foobar.com into the machine-readable IP address 173.231.209.34.
+
+With the IP address, the browser sends an HTTP request directly to your server at 173.231.209.34. This single server houses all the necessary components to process the request and serve the website back to the user.
+________________________________________
+
+Infrastructure Diagram
+
+https://drive.google.com/file/d/13IOI8ACkwt726pci9JULrv-lVWnR8B8R/view?usp=sharing
+
+________________________________________
+
+Infrastructure Components and Roles
+
+•	Server: At its core, a server is a computer that provides services to other computers (clients) on a network. In this case, your single server is a powerful computer running a web stack that accepts requests from users and sends back website data.
+
+•	Domain Name: The domain name, foobar.com, is the unique, human-readable address for your website. Its role is to make your website easy to find and remember, as it's much simpler than an IP address.
+
+•	DNS Record: The www in www.foobar.com is a subdomain, and it's typically configured as a CNAME or A record. In this case, www is an A record that points to the server's IP address, 173.231.209.34.
+
+•	Web Server (Nginx): The web server, Nginx, is software running on your server. Its primary role is to listen for incoming HTTP requests and serve static content (like HTML, CSS, and JavaScript files) directly. For requests that require dynamic processing (e.g., a user submitting a form), it acts as a reverse proxy, forwarding the request to the application server.
+
+•	Application Server: The application server is the software that runs your website's codebase. It processes dynamic requests forwarded by Nginx, performs logic (like user authentication or generating a personalized page), and communicates with the database to get or save data.
+
+•	Database (MySQL): The database, MySQL, is where all your website's persistent data is stored. This includes user information, articles, or any other content. It receives queries from the application server and returns the requested data.
+
+•	Communication: The server communicates with the user's computer using the TCP/IP protocol stack. This is the fundamental set of rules that governs how data is sent across the internet, ensuring reliable delivery of the website's data to the user's browser.
