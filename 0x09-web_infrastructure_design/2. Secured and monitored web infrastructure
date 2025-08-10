@@ -1,0 +1,25 @@
+Updated Architectural Diagram
+
+https://drive.google.com/file/d/1BHBr9eb8nun6QmeBOeHyyEtsYcP_wA39/view?usp=sharing
+https://drive.google.com/file/d/1bmd0XhKTzVyjGhyxtjKJifV7TZsBh5aX/view?usp=sharing
+
+________________________________________
+
+Specifics About Added Elements
+
+•	Firewalls: Three firewalls, one for each server. Firewalls are network security systems that monitor and control incoming and outgoing network traffic based on predefined security rules. They are essential for security because they act as a gatekeeper, filtering out malicious traffic and only allowing legitimate requests to reach the servers.
+•	SSL Certificate & HTTPS: An SSL certificate is a digital certificate that authenticates the identity of a website and enables an encrypted connection. By serving traffic over HTTPS, all communication between the user's browser and your website is encrypted. This prevents sensitive data from being intercepted or modified by malicious third parties.
+•	Monitoring Clients: A monitoring client on each of the three servers. Monitoring is the process of collecting data about the health, performance, and resource utilization of your systems. It's used for observing server metrics (CPU, memory, disk usage), diagnosing performance bottlenecks, and getting alerts when a problem occurs.
+•	Data Collection & QPS Monitoring: A monitoring client, or agent, is a small piece of software that runs on each server and periodically collects metrics (like CPU load, memory usage, etc.) and logs. It then sends this data to a central monitoring service. To monitor the Queries Per Second (QPS) of your web server, the monitoring client would likely parse the web server's access logs or use a specific Nginx module that exposes this metric directly.
+________________________________________
+
+Issues with this Infrastructure
+
+•	SSL Termination at the Load Balancer: Terminating SSL at the load balancer (HAproxy) means the traffic is decrypted there. While the connection from the user to the load balancer is secure, the traffic between the load balancer and the web server is now in plain text. This creates a security risk because a malicious actor could potentially intercept and read the data as it travels between these two components. For true end-to-end encryption, SSL should be terminated at the web server.
+•	Single MySQL Write Server: Having only one MySQL server capable of accepting write operations is a major single point of failure (SPOF). If this server fails, no new data can be written to the database, effectively crippling the application. It also becomes a performance bottleneck because all write requests, regardless of traffic volume, have to be funneled through this single machine, limiting scalability.
+•	Servers with Same Components: The previous design avoided this by having separate, specialized servers for each role (load balancer, web/app server, database). If you were to run all components (web server, application server, and database) on a single machine, it would be a problem for several reasons:
+	- No Redundancy: The entire infrastructure would become a single point of failure.
+    - Resource Contention: The components would compete for the same CPU, memory, and disk resources, which would lead to poor performance.
+    - Lack of Scalability: You couldn't scale a single component independently. For example, you couldn't add a second web server without also duplicating the database, which is inefficient.
+    - Security Risk: If a vulnerability is found in one component, an attacker could more easily gain access to the others.
+
