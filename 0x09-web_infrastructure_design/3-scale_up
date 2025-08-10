@@ -1,0 +1,24 @@
+This dramatically improves the system's scalability and resilience.
+
+https://drive.google.com/file/d/1ltEiSmF_8vXN9yuZjShErIAWfXCQNu2g/view?usp=sharing
+https://drive.google.com/file/d/127SpT0nE33AhE70KqvFbYHy0iSTi3NsR/view?usp=sharing
+
+________________________________________
+
+Why We're Scaling Up
+
+•	1 Server (and splitting components): By adding a fourth server and dedicating each one to a specific role, achieving much better scalability and performance. In the previous design, the single Web/App server was a Single Point of Failure (SPOF). Now, with two Web/App servers, if one fails, the other can continue to handle traffic. This also allows a much higher volume of requests, as the work is split between two machines.
+
+•	1 Load Balancer (HAproxy) Cluster: Adding a second HAproxy instance to create a high-availability cluster. This is a critical change because the single load balancer was the most vulnerable SPOF in the old design. If the first HAproxy failed, all traffic would stop. With a cluster, the second load balancer can immediately take over if the first one goes down, ensuring continuous uptime and eliminating the SPOF.
+Why We're Scaling Up and Adding New Elements
+
+HAproxy Load Balancer Communication
+To function as a high-availability cluster, the two HAproxy load balancers communicate using a Virtual Router Redundancy Protocol (VRRP). This protocol enables them to share a single Virtual IP (VIP) address. The server with the highest priority is designated as the Primary and actively handles all incoming traffic. The second server becomes the Replica (or backup) and constantly monitors the Primary's status.
+
+HAproxy Cluster: Adding a second HAproxy instance to create a high-availability cluster. This eliminates the single load balancer as a Single Point of Failure (SPOF). If one load balancer fails, the other can immediately take over, ensuring continuous uptime.
+
+Dedicated Servers: Adding more servers to split the web/application and database components onto dedicated machines. This improves scalability and performance, as each server can now focus on its specific role without competing for resources.
+
+Firewalls: Placing a firewall in front of each server. Firewalls are network security systems that monitor and control incoming and outgoing network traffic based on predefined security rules. They are a critical security measure because they act as a gatekeeper, filtering out malicious traffic and only allowing legitimate requests to reach the servers.
+
+Monitoring Clients: Adding a monitoring client to each server. These are agents that collect data about the health and performance of the systems, such as CPU usage, memory, and network traffic. This data is then sent to a central monitoring service. This allows us to observe system performance, diagnose bottlenecks, and receive alerts when a problem occurs.
