@@ -1,0 +1,45 @@
+The User's Journey
+
+When a user types www.foobar.com into their browser, the journey begins with DNS resolution, which translates the domain name into the IP address of the Load Balancer (HAproxy). The load balancer receives this initial request and, acting as a traffic manager, uses an algorithm like Round Robin to forward it to one of the available Web Servers (Nginx), ensuring no single server is overwhelmed and that the system remains responsive.
+
+The Web Server then processes the request. It serves static content directly (like HTML or images) but forwards any dynamic requests to the Application Server. The Application Server handles the website's business logic, communicating with the Database (MySQL) to retrieve or store information. Finally, the Application Server generates a response, which travels back through the Web Server and Load Balancer to the user's browser, completing the process.
+
+________________________________________
+
+Infrastructure Diagram
+
+https://drive.google.com/file/d/1IfdCgnmf3Vd9gJDPahHEo6O4FowGg6kr/view?usp=sharing
+
+________________________________________
+
+Infrastructure Components and Roles
+
+This is a simplified diagram for a basic, scalable infrastructure.
+
+Component Explanations
+•	Load Balancer (HAproxy): This is the entry point for all incoming web traffic. Its purpose is to distribute incoming requests evenly across the web servers to prevent any single server from becoming overwhelmed. We add it to ensure high availability and responsiveness, even under heavy traffic.
+
+•	Web Server (Nginx): The web server handles incoming requests and serves static content like HTML, CSS, and JavaScript files directly to the user. It also acts as a reverse proxy, forwarding requests for dynamic content to the application server. We add it to efficiently serve static assets and to offload work from the application server.
+
+•	Application Server: This server runs the application's business logic. It processes dynamic requests (e.g., user logins, form submissions) from the web server, interacts with the database to retrieve or store data, and generates a response. We add it to execute the core application code.
+
+•	Database (MySQL): The database stores all the persistent data for the application, such as user accounts, messages, and other content. We add it to ensure data is stored reliably and can be accessed by the application server.
+Infrastructure Specifics
+
+•	Load Balancer Algorithm: This infrastructure is configured with a Round Robin algorithm. This is a very simple and effective method that cycles through the available web servers, sending each new request to the next server in the list. For example, the first request goes to server 1, the second to server 2, and so on.
+
+•	Active-Active vs. Active-Passive: This setup enables an Active-Active configuration. In an Active-Active setup, all servers are running and actively handling requests at the same time. This differs from an Active-Passive setup where one server is active and the other is a passive backup that takes over only if the active one fails.
+
+•	Primary-Replica (Master-Slave) Cluster: This configuration consists of a single primary node and one or more replica nodes. The primary node is responsible for handling all write operations (e.g., creating, updating, deleting data). The replica nodes are read-only copies that receive updates from the primary and can handle all read operations.
+
+•	Primary vs. Replica Node: The primary node is the authoritative source of data for the application; all changes to the data must go through it. The replica nodes serve as mirrors of the primary and are used to scale out the read capacity of the database, allowing the application to handle more read-heavy traffic without overloading the primary.
+________________________________________
+
+Issues with this Infrastructure
+
+•	Single Points of Failure (SPOFs): Several components are SPOFs, meaning if they fail, the entire system could go down. The most critical SPOFs here are the HAproxy load balancer and the MySQL primary node.
+
+•	Security Issues: The infrastructure has several security vulnerabilities. There is no firewall to filter malicious traffic, and there is no HTTPS encryption, meaning all data transferred between the user and the web server is sent in plain text and is vulnerable to interception.
+
+•	No Monitoring: There is no monitoring or alerting system in place. This makes it impossible to detect failures, performance bottlenecks, or security threats in a timely manner.
+ 
