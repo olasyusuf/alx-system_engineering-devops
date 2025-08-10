@@ -26,3 +26,15 @@ Infrastructure Components and Roles
 •	Database (MySQL): The database, MySQL, is where all your website's persistent data is stored. This includes user information, articles, or any other content. It receives queries from the application server and returns the requested data.
 
 •	Communication: The server communicates with the user's computer using the TCP/IP protocol stack. This is the fundamental set of rules that governs how data is sent across the internet, ensuring reliable delivery of the website's data to the user's browser.
+
+________________________________________
+
+Issues with this Infrastructure
+
+This simple, single-server setup is common but has significant limitations:
+
+•	Single Point of Failure (SPOF): This entire infrastructure is a single point of failure. If the server goes down for any reason—a hardware failure, a software crash, or a power outage—the entire website becomes inaccessible.
+
+•	Downtime During Maintenance: When you need to update your code, restart Nginx, or perform any other maintenance task, the server must be taken offline. This results in downtime, as the website is unavailable to all users for a period of time.
+
+•	Cannot Scale: If your website becomes popular and you experience a large increase in traffic, this single server will quickly become overwhelmed. It cannot handle a high volume of concurrent requests, leading to slow response times or complete failure, as there are no other servers to distribute the load to.
